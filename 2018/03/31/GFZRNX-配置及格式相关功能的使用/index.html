@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>GFZRNX 配置及格式相关功能的使用 | vzcoso</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="提到 GNSS 领域的数据预处理工具，你首先想到的肯定是 TEQC 程序。该程序因其丰富的数据转换、编辑和质量检查等功能而被人们所熟知。但该程序也并非尽善尽美。比方说，截至目前，该程序在 RINEX 各版本之间（尤其是 RINEX 2 与 3 之间）的格式转换功能尚弱。 本文将介绍另一个 GNSS 数据预处理程序：GFZRNX。该程序也具有丰富的功能，可以帮助你轻松跨越 RINEX 2 与 3 版">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GFZRNX 配置及格式相关功能的使用">
+<meta property="og:url" content="http://vzcoso.github.io/2018/03/31/GFZRNX-%E9%85%8D%E7%BD%AE%E5%8F%8A%E6%A0%BC%E5%BC%8F%E7%9B%B8%E5%85%B3%E5%8A%9F%E8%83%BD%E7%9A%84%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="vzcoso">
+<meta property="og:description" content="提到 GNSS 领域的数据预处理工具，你首先想到的肯定是 TEQC 程序。该程序因其丰富的数据转换、编辑和质量检查等功能而被人们所熟知。但该程序也并非尽善尽美。比方说，截至目前，该程序在 RINEX 各版本之间（尤其是 RINEX 2 与 3 之间）的格式转换功能尚弱。 本文将介绍另一个 GNSS 数据预处理程序：GFZRNX。该程序也具有丰富的功能，可以帮助你轻松跨越 RINEX 2 与 3 版">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-03-31T15:14:44.000Z">
+<meta property="article:modified_time" content="2018-03-31T15:30:54.000Z">
+<meta property="article:author" content="vzcoso">
+<meta property="article:tag" content="GFZRNX">
+<meta name="twitter:card" content="summary">
+    
+
+    
+        <link rel="alternate" href="/" title="vzcoso" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/css/images/favicon.png" />
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">vzcoso</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.#Home">主页</a>
+                
+                    <a class="main-nav-link" href="/archives#Archives">归档</a>
+                
+                    <a class="main-nav-link" href="/categories#Categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags#Tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about#About">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.#Home">主页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives#Archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories#Categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags#Tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about#About">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            <section id="main"><article id="post-GFZRNX-配置及格式相关功能的使用" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            GFZRNX 配置及格式相关功能的使用
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/03/31/GFZRNX-%E9%85%8D%E7%BD%AE%E5%8F%8A%E6%A0%BC%E5%BC%8F%E7%9B%B8%E5%85%B3%E5%8A%9F%E8%83%BD%E7%9A%84%E4%BD%BF%E7%94%A8/">
+            <time datetime="2018-03-31T15:14:44.000Z" itemprop="datePublished">2018-03-31</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/GNSS/">GNSS</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/GFZRNX/" rel="tag">GFZRNX</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#程序简介"><span class="toc-number">1.</span> <span class="toc-text">程序简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#环境配置"><span class="toc-number">2.</span> <span class="toc-text">环境配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows-操作系统"><span class="toc-number">2.1.</span> <span class="toc-text">Windows 操作系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux-或-macOS-操作系统"><span class="toc-number">2.2.</span> <span class="toc-text">Linux 或 macOS 操作系统</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作模式"><span class="toc-number">3.</span> <span class="toc-text">操作模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#格式相关操作"><span class="toc-number">4.</span> <span class="toc-text">格式相关操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#格式检查与修复"><span class="toc-number">4.1.</span> <span class="toc-text">格式检查与修复</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#格式转换"><span class="toc-number">4.2.</span> <span class="toc-text">格式转换</span></a></li></ol></li></ol>
+                </div>
+            
+            <p>提到 GNSS 领域的数据预处理工具，你首先想到的肯定是 <a href="https://www.unavco.org/software/data-processing/teqc/teqc.html" target="_blank" rel="noopener">TEQC</a> 程序。该程序因其丰富的数据转换、编辑和质量检查等功能而被人们所熟知。但该程序也并非尽善尽美。比方说，截至目前，该程序在 RINEX 各版本之间（尤其是 RINEX 2 与 3 之间）的格式转换功能尚弱。</p>
+<p>本文将介绍另一个 GNSS 数据预处理程序：GFZRNX。该程序也具有丰富的功能，可以帮助你轻松跨越 RINEX 2 与 3 版本格式之间的鸿沟。如果配合 TEQC 程序双剑合璧，更能让你在数据预处理工作方面游刃有余。</p>
+<a id="more"></a>
+
+<h2 id="程序简介"><a href="#程序简介" class="headerlink" title="程序简介"></a>程序简介</h2><p><a href="http://semisys.gfz-potsdam.de/semisys/scripts/download/" target="_blank" rel="noopener">GFZRNX</a> 程序是由德国波兹坦地学研究中心（GFZ）的开发的一款用于 GNSS 数据预处理（主要适用于 RINEX 2 与 3 版本格式）的程序，支持 Windows、Linux、macOS 等常见的操作系统。此程序并不开源，但对于非商业用途的用户，提供免费的使用授权。在程序的<a href="http://semisys.gfz-potsdam.de/semisys/scripts/download/" target="_blank" rel="noopener">介绍页面</a>，点击 “GFZ software” 标签即可看到程序的下载链接。</p>
+<p>GFZRNX 程序支持对 RINEX 格式的观测数据文件（Obs）、广播星历文件（Nav）和气象数据文件（Met）的操作。目前提供的功能有：</p>
+<ul>
+<li>RINEX 格式检查与修复；</li>
+<li>RINEX 版本格式转换；</li>
+<li>RINEX 文件分割与拼接；</li>
+<li>RINEX 文件头信息编辑与导出；</li>
+<li>RINEX 数据编辑，如采样抽取、观测卫星筛选等；</li>
+<li>RINEX 文件差异比较；</li>
+<li>RINEX 数据质量分析。</li>
+</ul>
+<p>如果你在数据处理时使用了此程序，请在论文后面为它添加如下的一个引用：</p>
+<blockquote>
+<p>Nischan, Thomas (2016): GFZRNX - RINEX GNSS Data Conversion and Manipulation Toolbox. GFZ Data Services. <a href="http://dx.doi.org/10.5880/GFZ.1.1.2016.002" target="_blank" rel="noopener">http://dx.doi.org/10.5880/GFZ.1.1.2016.002</a> </p>
+</blockquote>
+<h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><h3 id="Windows-操作系统"><a href="#Windows-操作系统" class="headerlink" title="Windows 操作系统"></a>Windows 操作系统</h3><p>对于 Windows 操作系统，下载对应的可执行文件后，打开 “命令提示符” 窗口，使用 cd 命令进入程序所在目录，然后键入程序名（gfzrnx_win32.exe 或 gfzrnx_win64.exe）即可运行程序。</p>
+<p>我可不想每次使用该程序前切换工作目录，也不喜欢命令后面诸如 “win32” 或 “win64” 这样的后缀。因此我将其重命名为 “gfzrnx.exe”，然后移动至 “C:\Windows\System32” 文件夹内。这样每次使用该程序时，只需要在 “命令提示符” 窗口键入 gfzrnx 就行了。当然，你也可以将该程序所在目录添加到系统的 Path 变量。</p>
+<h3 id="Linux-或-macOS-操作系统"><a href="#Linux-或-macOS-操作系统" class="headerlink" title="Linux 或 macOS 操作系统"></a>Linux 或 macOS 操作系统</h3><p>对于 Linux 或 macOS 操作系统，下载对应的可执行文件后，首先将其重命名为 “gfzrnx” 以去除冗长的后缀，然后为程序分配可执行权限：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ chmod +x gfzrnx</span><br></pre></td></tr></table></figure>
+
+<p>这样就可以在程序所在目录中通过命令 gfzrnx 来使用程序了。如果你希望在任何目录下都可以使用此程序，可以将其移动到 “/usr/bin” 目录下。</p>
+<h2 id="操作模式"><a href="#操作模式" class="headerlink" title="操作模式"></a>操作模式</h2><p>使用 GFZRNX 程序前，首先要了解其操作模式。该程序的输入，即可以来自文件，也可以来自标准输入或管道。对于来自于文件的数据，需要使用 <code>-finp</code> 参数指定。对于程序的输出，默认为标准输出，也可以使用重定向或 <code>-fout</code> 参数将输出转到文件。对于出错信息，默认为标准错误输出，也可以使用 <code>-errlog</code> 参数（或重定向）将出错信息转到文件。因此程序常见的操作模式为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gfzrnx -finp &lt;input_files&gt; -errlog &lt;error_log&gt; [options] &gt; &lt;output_file&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这里的 <code>[options]</code> 代表附加的参数选项，用于指定数据处理中使用的功能。使用 GFZRNX 程序进行数据预处理时，任何符合 RINEX 2 或 3 格式标准的数据都可以作为输入，但只输出最新的 RINEX 2（目前为 RINEX 2.11） 或 3（目前为 RINEX 3.03）版本的数据。如果未明确指定输出数据的格式版本，则默认为 RINEX 3.03。</p>
+<h2 id="格式相关操作"><a href="#格式相关操作" class="headerlink" title="格式相关操作"></a>格式相关操作</h2><h3 id="格式检查与修复"><a href="#格式检查与修复" class="headerlink" title="格式检查与修复"></a>格式检查与修复</h3><p>GFZRNX 程序提供对 RINEX 格式的检查功能，可以检测你输入的数据文件是否合乎规范。对于格式不正确的内容，甚至会自动尝试修复它。经过格式检查，GFZRNX 将会更新文件头中的信息并且移除所有出错的观测数据。在使用诸如 PANDA、GAMIT/GLOBK 等高精度 GNSS 数据处理程序时，该功能可以解决很多因为数据格式造成的错误。要在数据预处理中使用该功能，只需在操作命令中添加 <code>-chk</code> 参数。</p>
+<p>以 BJFS 站 2016 年 9 月 12 日的观测数据 bjfs2560.16o 为例，其原始数据格式为 RINEX 2.10。下面的命令将调用 GFZRNX 程序对该文件进行格式检查，并将尝试修复后的数据保存至新的文件 bjfx2560.16o：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gfzrnx -finp bjfs2560.16o -chk &gt; bjfx2560.16o</span><br></pre></td></tr></table></figure>
+
+<p>该命令执行完成后，如果你查看生成的 bjfx2560.16o 文件，将发现该文件已经符合最新的 RINEX 3 格式标准。如果你不希望将输出的文件转换为 RINEX 3 格式，可以添加一个 <code>-kv</code> 参数，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gfzrnx -finp bjfs2560.16o -chk -kv &gt; bjfx2560.16o</span><br></pre></td></tr></table></figure>
+
+<p>此时查看生成的新文件 bjfx2560.16o，将发现其数据格式没有变成 RINEX 3，但也不再是原始的 RINEX 2.10，而是 RINEX 2.11。因为这是最新的 RINEX 2 格式标准，<code>-kv</code> 参数只指定数据格式大版本不发生变化。</p>
+<h3 id="格式转换"><a href="#格式转换" class="headerlink" title="格式转换"></a>格式转换</h3><p>使用 GFZRNX 程序的数据格式转换功能时，只需在操作命令中使用 <code>-vo</code> 参数。其输入值被限制为 2 或 3，代表输出数据的 RINEX 格式版本。</p>
+<p>以 CHAN 站点于 2016 年 9 月 12 日的观测数据为例，其原始文件为 RINEX 2.11 格式。下面的命令将其格式转化为 RINEX 3：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gfzrnx -finp chan2560.16o -vo 3 &gt; CHAN00CHN_R_20162560000_01D_30S_MO.rnx</span><br></pre></td></tr></table></figure>
+
+<p>转化广播星历文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gfzrnx -finp chan2560.16n -vo 3 &gt; CHAN00CHN_R_20162560000_01D_GN.rnx</span><br></pre></td></tr></table></figure>
+
+<p>转化气象数据文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gfzrnx -finp dav12560.16m -vo 3 &gt; DAV100ATA_R_20162560000_01D_30S_MM.rnx</span><br></pre></td></tr></table></figure>
+
+<p>类似的，下面的命令将之前的命令所生成的文件转化回 RINEX 2：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gfzrnx -finp CHAN00CHN_R_20162560000_01D_30S_MO.rnx -vo 2 &gt; chan2560.12o</span><br></pre></td></tr></table></figure>
+
+<p>如果你在 UNIX/Linux 操作系统上进行操作，还可以通过管道使 GFZRNX 程序与 RNXCMP、TEQC 等程序相配合。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ crx2rnx CHAN00CHN_R_20162560000_01D_30S_MO.crx - | gfzrnx -f -vo 2 &gt; chan2560.16o</span><br></pre></td></tr></table></figure>
+
+<p>运行该命令后，将从最初的 CHAN00CHN_R_20162560000_01D_30S_MO.crx 文件直接得到符合 RINEX 2 格式标准的文件 chan2560.16o。这里的 <code>-f</code> 参数指示强制覆盖可能的已有文件。</p>
+<p>至此，GFZRNX 程序的格式检查、修复与转换功能已经介绍完毕。对于此程序其他功能的使用介绍，请查看本站 <a href="https://vzcoso.github.io/tags/GFZRNX/">#GFZRNX</a> 标签中的文章。</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+            
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2018/03/31/GFZRNX-%E5%B8%B8%E7%94%A8%E7%9A%84%E6%96%87%E4%BB%B6%E7%BC%96%E8%BE%91%E5%91%BD%E4%BB%A4/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    GFZRNX 常用的文件编辑命令
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2018/03/30/%E5%85%A8%E7%90%83%E5%8D%AB%E6%98%9F%E5%AF%BC%E8%88%AA%E7%B3%BB%E7%BB%9F%E6%9C%80%E6%96%B0%E7%8A%B6%E6%80%81/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">全球卫星导航系统最新状态</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/GNSS/">GNSS</a></p>
+                            <p class="item-title"><a href="/2018/04/08/BERNESE%E6%95%99%E7%A8%8B/" class="title">BERNESE教程</a></p>
+                            <p class="item-date"><time datetime="2018-04-07T16:27:31.000Z" itemprop="datePublished">2018-04-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/GNSS/">GNSS</a></p>
+                            <p class="item-title"><a href="/2018/03/31/GFZRNX-%E6%96%87%E4%BB%B6%E5%A4%B4%E4%BF%A1%E6%81%AF%E7%BC%96%E8%BE%91%E5%8A%9F%E8%83%BD%E8%AF%A6%E8%A7%A3/" class="title">GFZRNX 文件头信息编辑功能详解</a></p>
+                            <p class="item-date"><time datetime="2018-03-31T15:23:57.000Z" itemprop="datePublished">2018-03-31</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/GNSS/">GNSS</a></p>
+                            <p class="item-title"><a href="/2018/03/31/GFZRNX-%E5%B8%B8%E7%94%A8%E7%9A%84%E6%96%87%E4%BB%B6%E7%BC%96%E8%BE%91%E5%91%BD%E4%BB%A4/" class="title">GFZRNX 常用的文件编辑命令</a></p>
+                            <p class="item-date"><time datetime="2018-03-31T15:20:20.000Z" itemprop="datePublished">2018-03-31</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/GNSS/">GNSS</a></p>
+                            <p class="item-title"><a href="/2018/03/31/GFZRNX-%E9%85%8D%E7%BD%AE%E5%8F%8A%E6%A0%BC%E5%BC%8F%E7%9B%B8%E5%85%B3%E5%8A%9F%E8%83%BD%E7%9A%84%E4%BD%BF%E7%94%A8/" class="title">GFZRNX 配置及格式相关功能的使用</a></p>
+                            <p class="item-date"><time datetime="2018-03-31T15:14:44.000Z" itemprop="datePublished">2018-03-31</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/GNSS/">GNSS</a></p>
+                            <p class="item-title"><a href="/2018/03/30/%E5%85%A8%E7%90%83%E5%8D%AB%E6%98%9F%E5%AF%BC%E8%88%AA%E7%B3%BB%E7%BB%9F%E6%9C%80%E6%96%B0%E7%8A%B6%E6%80%81/" class="title">全球卫星导航系统最新状态</a></p>
+                            <p class="item-date"><time datetime="2018-03-30T15:43:28.000Z" itemprop="datePublished">2018-03-30</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/GIT/">GIT</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/GNSS/">GNSS</a><span class="category-list-count">6</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/BERNESE/" rel="tag">BERNESE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ERROR/" rel="tag">ERROR</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GFZRNX/" rel="tag">GFZRNX</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NAVIGATION-SYSTEM/" rel="tag">NAVIGATION SYSTEM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E4%B8%8B%E8%BD%BD/" rel="tag">数据下载</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io" target="_blank" rel="noopener">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2020 vzcoso<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice" target="_blank" rel="noopener">Icarus</a>. Designed by <a href="https://github.com/vzcoso" target="_blank" rel="noopener">Vzcoso</a>.
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+        </script>
+        
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML.js"></script>
+
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>

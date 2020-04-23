@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>GFZRNX 文件头信息编辑功能详解 | vzcoso</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="前文在介绍 GFZRNX 程序的文件编辑命令时，并没有提到其对 RINEX 格式文件的文件头信息的导出和编辑功能。相比 TEQC 程序，该程序的文件头信息编辑的功能更强大，但也更复杂。为协调各文章的篇幅，将其独立成此文。 首先需要说明的是，GFZRNX 支持对 RINEX 格式的观测文件（O-文件）、导航文件（N-文件）和气象文件（M-文件）的操作，但考虑到我们编辑得最多的还是观测文件，因此本文的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GFZRNX 文件头信息编辑功能详解">
+<meta property="og:url" content="http://vzcoso.github.io/2018/03/31/GFZRNX-%E6%96%87%E4%BB%B6%E5%A4%B4%E4%BF%A1%E6%81%AF%E7%BC%96%E8%BE%91%E5%8A%9F%E8%83%BD%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="vzcoso">
+<meta property="og:description" content="前文在介绍 GFZRNX 程序的文件编辑命令时，并没有提到其对 RINEX 格式文件的文件头信息的导出和编辑功能。相比 TEQC 程序，该程序的文件头信息编辑的功能更强大，但也更复杂。为协调各文章的篇幅，将其独立成此文。 首先需要说明的是，GFZRNX 支持对 RINEX 格式的观测文件（O-文件）、导航文件（N-文件）和气象文件（M-文件）的操作，但考虑到我们编辑得最多的还是观测文件，因此本文的">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-03-31T15:23:57.000Z">
+<meta property="article:modified_time" content="2018-04-07T16:40:08.000Z">
+<meta property="article:author" content="vzcoso">
+<meta property="article:tag" content="GFZRNX">
+<meta name="twitter:card" content="summary">
+    
+
+    
+        <link rel="alternate" href="/" title="vzcoso" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/css/images/favicon.png" />
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">vzcoso</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.#Home">主页</a>
+                
+                    <a class="main-nav-link" href="/archives#Archives">归档</a>
+                
+                    <a class="main-nav-link" href="/categories#Categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags#Tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about#About">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.#Home">主页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives#Archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories#Categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags#Tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about#About">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            <section id="main"><article id="post-GFZRNX-文件头信息编辑功能详解" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            GFZRNX 文件头信息编辑功能详解
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/03/31/GFZRNX-%E6%96%87%E4%BB%B6%E5%A4%B4%E4%BF%A1%E6%81%AF%E7%BC%96%E8%BE%91%E5%8A%9F%E8%83%BD%E8%AF%A6%E8%A7%A3/">
+            <time datetime="2018-03-31T15:23:57.000Z" itemprop="datePublished">2018-03-31</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/GNSS/">GNSS</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/GFZRNX/" rel="tag">GFZRNX</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#信息导出"><span class="toc-number">1.</span> <span class="toc-text">信息导出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#信息编辑"><span class="toc-number">2.</span> <span class="toc-text">信息编辑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#更新-插入模式"><span class="toc-number">2.1.</span> <span class="toc-text">更新&#x2F;插入模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#替换模式"><span class="toc-number">2.2.</span> <span class="toc-text">替换模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#重命名模式"><span class="toc-number">2.3.</span> <span class="toc-text">重命名模式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#导出信息样例"><span class="toc-number">3.</span> <span class="toc-text">导出信息样例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TXT-格式导出的观测信息"><span class="toc-number">3.1.</span> <span class="toc-text">TXT 格式导出的观测信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JSON-格式导出的观测信息"><span class="toc-number">3.2.</span> <span class="toc-text">JSON 格式导出的观测信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#XML-格式导出的观测信息"><span class="toc-number">3.3.</span> <span class="toc-text">XML 格式导出的观测信息</span></a></li></ol></li></ol>
+                </div>
+            
+            <p><a href="https://vzcoso.github.io/2018/03/31/GFZRNX-常用的文件编辑命令/">前文</a>在介绍 GFZRNX 程序的文件编辑命令时，并没有提到其对 RINEX 格式文件的文件头信息的导出和编辑功能。相比 TEQC 程序，该程序的文件头信息编辑的功能更强大，但也更复杂。为协调各文章的篇幅，将其独立成此文。</p>
+<p>首先需要说明的是，GFZRNX 支持对 RINEX 格式的观测文件（O-文件）、导航文件（N-文件）和气象文件（M-文件）的操作，但考虑到我们编辑得最多的还是观测文件，因此本文的示例以对 O-文件的操作为主。</p>
+<a id="more"></a>
+
+<h2 id="信息导出"><a href="#信息导出" class="headerlink" title="信息导出"></a>信息导出</h2><p>介绍信息编辑功能前，让我们先顺便了解一下 GFZRNX 程序文件头信息导出的功能。该功能可以将文件头中的信息提取出来，便于查看、归档。</p>
+<p>信息导出功能使用 <code>-meta</code> 参数，支持 TXT、JSON、XML 等格式，使用起来非常简单。下面的命令以 TXT 格式导出观测信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gfzrnx -finp shao0420.16o -meta basic:txt &gt; shao0420.txt</span><br></pre></td></tr></table></figure>
+
+<p>下面的命令以 JSON 格式导出观测信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gfzrnx -finp shao0420.16o -meta basic:json &gt; shao0420.json</span><br></pre></td></tr></table></figure>
+
+<p>下面的命令以 XML 格式导出观测信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gfzrnx -finp shao0420.16o -meta basic:xml &gt; shao0420.xml</span><br></pre></td></tr></table></figure>
+
+<p>限于篇幅，为保证行文流畅性，将导出的信息附在文末。</p>
+<h2 id="信息编辑"><a href="#信息编辑" class="headerlink" title="信息编辑"></a>信息编辑</h2><p>GFZRNX 程序的文件头信息编辑包括三种模式：更新/插入模式、替换模式和重命名模式。其中更新/插入模式主要用于修改文件头中的信息，替换模式用于编辑文件头标志，而重命名模式常用于重命名观测的卫星号和观测量。</p>
+<p>使用该程序的信息编辑功能时，必须通过 <code>-crux</code> 参数引入一个配置文件。一份配置文件模板可以使用下面的命令获得：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gfzrnx -show_crux &gt; example.txt</span><br></pre></td></tr></table></figure>
+
+<p>运行该命令后，得到示例文件 example.txt。但该文件几乎空无一物，并没有太大的演示价值，因此本文将以我的配置文件为例。</p>
+<h3 id="更新-插入模式"><a href="#更新-插入模式" class="headerlink" title="更新/插入模式"></a>更新/插入模式</h3><p>一份更新/插入模式的配置文件就像这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">update_insert: </span><br><span class="line">#-------------</span><br><span class="line">  O - SHAO.DAEJ:</span><br><span class="line">    &quot;REC # &#x2F; TYPE &#x2F; VERS&quot;: &#123; 1: &quot;TRIMBLE NETG3&quot; &#125;</span><br><span class="line">    &quot;ANT # &#x2F; TYPE&quot;: &#123; 1: &quot;TRM59800.00&quot;, 2: &quot;NONE&quot; &#125;</span><br><span class="line"></span><br><span class="line">  O - 2015209:00000 2016365:86399 - SHAO:</span><br><span class="line">    &quot;APPROX POSITION XYZ&quot;: &#123; 0: -3857167.6484, 1: 3108694.9138, 2: 4004041.6876 &#125;</span><br><span class="line">    &quot;ANTENNA: DELTA H&#x2F;E&#x2F;N&quot; : &#123; 0: 0.1209, 1: 0.0008, 2: 0.0007 &#125;</span><br><span class="line"></span><br><span class="line">  O - SHAO:</span><br><span class="line">    &quot;OBSERVER &#x2F; AGENCY&quot;: &#123; 0 : &quot;SHAO&quot;, 1 : &quot;SHAO CAS&quot; &#125;</span><br><span class="line"></span><br><span class="line">  O - DAEJ:</span><br><span class="line">    &quot;OBSERVER &#x2F; AGENCY&quot; + 00000000:000000 20130126:235959: &#123; 0: &quot;KASI&quot;, 1: &quot;KASI&quot; &#125;</span><br><span class="line">    &quot;OBSERVER &#x2F; AGENCY&quot; + 20130127:000000 00000000:000000: &#123; 0: &quot;KASI&quot;, 1: &quot;KASI KOREA&quot; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>该文件首行的“update_insert”即声明了该配置为更新/插入模式。第 2 行为注释，以“#”号开头。</p>
+<p>之后的三行作为一组。其中第 3 行的首个字符定义了要编辑的数据类型（O、M、N 分别代表 RINEX 格式的观测文件、气象文件和导航文件）。若省略该字符，则表示将设置应用到所有数据类型。连字符之后是要应用这些设置的目的站点列表，多个点名之间使用“.”号分隔。因此这里的配置指示：将这一组设置应用到 SHAO 和 DAEJ 两个站点。如果你希望将配置应用到所有输入的文件，可以在这里使用 “ALL”。</p>
+<p>文件的第 4 行是一个配置项。如你所知，RINEX 文件头信息中包含“REC # / TYPE / VERS”的这一行有 3 个数据项，分别表示接收机编号、接收机类型和接收机版本。如果我们将这一行的数据项以 0 开始编号，那么三项对应的是：</p>
+<ul>
+<li>0 ：接收机编号；</li>
+<li>1 ：接收机类型；</li>
+<li>2 ：接收机版本。</li>
+</ul>
+<p>因此，这个配置项意为：更新“REC # / TYPE / VERS”这一行的信息，将其中编号为 1 的项目（即接收机类型）修改为“TRIMBLE NETG3”。</p>
+<p>文件第 5 行与上一行类似，更新天线类型为“TRM59800.00”，更新天线罩为“NONE”。</p>
+<p>第 7 行与第 3 行类似，但在文件类型和站点名之间插入了一段字符“2015209:00000 2016365:86399”。这段字符指明，以下的配置仅应用于观测时间在该时间段之内的数据。其中的起止时刻以年、年积日和秒数的方式指定。之后的两行配置分别更新了观测信息中的先验坐标和天线偏移。</p>
+<p>第 10 行和第 11 行配置将 SHAO 站的观测者和观测机构分别修改为“SHAO”和“SHAO CAS”。这里省略了应用配置的起止时刻，因此默认将此配置应用到所有时间段的观测数据。</p>
+<p>最后的 3 行对 DAEJ 站的观测者和观测机构进行配置，但在配置项中插入了以“+”号开始的一个起止时刻。这表示，在 2013 年 1 月 26 日 23 点 59 分 59 秒之前的观测数据，其观测者和观测机构修改为“KASI”，在 2013 年 1 月 27 日 0 点 0 分 0 秒之后的观测数据，其观测者和观测机构分别修改为“KASI”和“KASI KOREA”。这里的时刻是以年月日、时分秒的形式指定的。事实上，该配置文件中的日期和时刻的格式分别各有两种，即年积日、年月日和时分秒、日积秒。</p>
+<p>要应用该配置文件，可以将配置文件保存为 updist_crux.txt。然后执行类似如下的命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ gfzrnx -finp daej0420.16o -crux updist_crux.txt -kv &gt; temp&#x2F;dnew0420.16o</span><br><span class="line">$ gfzrnx -finp shao0420.16o -crux updist_crux.txt -kv &gt; temp&#x2F;snew0420.16o</span><br></pre></td></tr></table></figure>
+
+<p>以上两个命令将分别得到修改后的文件 dnew0420.16o 和 snew0420.16o。</p>
+<h3 id="替换模式"><a href="#替换模式" class="headerlink" title="替换模式"></a>替换模式</h3><p>替换模式的配置于之前的更新/插入模式的配置方式有许多相同之处。一份替换模式的配置文件如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">replace:</span><br><span class="line">#-------</span><br><span class="line">    ALL:</span><br><span class="line">      string_from: &quot;PGM&#x2F;RUN BY&#x2F;DATE&quot;</span><br><span class="line">      string_to: &quot;PGM &#x2F; RUN BY &#x2F; DATE&quot;</span><br><span class="line">    DAEJ.SHAO:</span><br><span class="line">      regexp_from: &quot;^(.&#123;60&#125;)PGM\s*&#x2F;\s*RUN\s*BY\s*&#x2F;\s*DATE\s*$&quot;</span><br><span class="line">      regexp_to: &quot;$1PGM &#x2F; RUN BY &#x2F; DATE&quot;</span><br></pre></td></tr></table></figure>
+
+<p>首行声明配置为替换模式，之后以“#”号开头的一行为注释。第 3 行和第 6 行各指出了配置项的应用到哪些站点。</p>
+<p>对于设置将被替换的项目和替换后的内容，既可以使用字符串指定，如第 4 到 5 行；也可以使用<a href="https://zh.wikipedia.org/wiki/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F" target="_blank" rel="noopener">正则表达式</a>指定，如第 7 到 8行。只需分别以“string”和“regexp”作为配置项的前缀。</p>
+<p>对于配置项的后缀，“from”指定要被替换的内容，而“to”指定替换后的内容。</p>
+<p>与之前类似，要应用该配置文件，可以将配置文件保存为 repl_crux.txt。然后执行类似如下的命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ gfzrnx -finp daej0420.16o -crux repl_crux.txt -kv &gt; temp&#x2F;dnew0420.16o</span><br><span class="line">$ gfzrnx -finp shao0420.16o -crux repl_crux.txt -kv &gt; temp&#x2F;snew0420.16o</span><br></pre></td></tr></table></figure>
+
+<h3 id="重命名模式"><a href="#重命名模式" class="headerlink" title="重命名模式"></a>重命名模式</h3><p>重命名模式常用来修改观测卫星号和观测类型标志。实际上，该模式也只有这两个功能。并且在声明时需要明确指明要重命名的是卫星号还是观测类型。</p>
+<p>一份修改卫星号的配置文件如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">rename: prn</span><br><span class="line">#----------</span><br><span class="line">  ON - 20140105:000000 20150101:000000 - E51 - E01: ALL</span><br><span class="line">  ON - 20140105:000000 00000000:000000 - E52 - E02: DAEJ.SHAO</span><br><span class="line">  E53 - E03: ALL</span><br></pre></td></tr></table></figure>
+
+<p>首行声明配置为重命名卫星编号，之后的一行为注释。</p>
+<p>第 3 行一开始的“ON”指定将配置应用于观测文件与导航文件，然后的两个时刻指定应用配置的时间。之后指定将卫星“E51”重命名为“E01”，应用的站点为所有站点。第 4 行与上一行类似，但限制将配置应用到 DAEJ 和 SHAO 两个站点。最后一行没有指定设置要应用的文件类型和时段，因此该设置将应用到所有时段的所有文件。</p>
+<p>一份重命名观测类型的配置文件如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">rename: obs</span><br><span class="line">#----------</span><br><span class="line">  20140105:000000 20150101:000000 - L2X - L2L - G : DAEJ.SHAO</span><br><span class="line">  20140105:000000 20150101:000000 - L2L - L2X - G : DAEJ</span><br><span class="line">  20140105:000000 20150101:000000 - **X - **L - C : ALL</span><br><span class="line">  20140105:000000 20150101:000000 - *2 - *1 - G04.G08 : ALL</span><br><span class="line">  *2 - *1 - C : ALL</span><br></pre></td></tr></table></figure>
+
+<p>首行声明配置为重命名观测类型，之后的一行为注释。</p>
+<p>第 3 行与第 4 行，指定了应用配置的时间段、需重命名的观测类型、重命名后的类型、卫星系统和应用的站点。第 4 行以通配符的方式指定了要重命名的观测类型与重命名后的类型。第 5 行与上一行类似，但限制了应用范围为 G4 和 G8 卫星。最后一行省略了时段，因此该配置将应用于所有观测时段的数据。</p>
+<p>应用重命名模式的命令方式与之前的两个模式一致，这里不在赘述。</p>
+<h2 id="导出信息样例"><a href="#导出信息样例" class="headerlink" title="导出信息样例"></a>导出信息样例</h2><h3 id="TXT-格式导出的观测信息"><a href="#TXT-格式导出的观测信息" class="headerlink" title="TXT 格式导出的观测信息"></a>TXT 格式导出的观测信息</h3><p>以下为上文导出的 shao0420.txt 文件的内容。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">antenna:</span><br><span class="line">     height:</span><br><span class="line">          x &#x3D; 0</span><br><span class="line">          y &#x3D; 0</span><br><span class="line">          z &#x3D; 0</span><br><span class="line">     name &#x3D; AOAD&#x2F;M_T</span><br><span class="line">     number &#x3D; 429</span><br><span class="line">     radome &#x3D; JPLA</span><br><span class="line">data:</span><br><span class="line">     epoch:</span><br><span class="line">          first &#x3D; 2016 02 11 00 00 00.0000000</span><br><span class="line">          interval &#x3D; 30.000</span><br><span class="line">          last &#x3D; 2016 02 11 23 59 30.0000000</span><br><span class="line">file:</span><br><span class="line">     md5 &#x3D; c8ad2534683bf037c7a9e77eab2ef0a3</span><br><span class="line">     system &#x3D; G</span><br><span class="line">     type &#x3D; O</span><br><span class="line">     version &#x3D; 2.11</span><br><span class="line">receiver:</span><br><span class="line">     firmware &#x3D; CQ00</span><br><span class="line">     name &#x3D; ASHTECH UZ-12</span><br><span class="line">     number &#x3D; UC2200524020</span><br><span class="line">site:</span><br><span class="line">     agency &#x3D; SHANGHAI OBSERVATORY</span><br><span class="line">     name &#x3D; SHAO</span><br><span class="line">     number &#x3D; 21605M002</span><br><span class="line">     observer &#x3D; GGN</span><br><span class="line">     position:</span><br><span class="line">          x &#x3D; -2831733.5830</span><br><span class="line">          y &#x3D; 4675665.9580</span><br><span class="line">          z &#x3D; 3275369.4100</span><br></pre></td></tr></table></figure>
+
+<h3 id="JSON-格式导出的观测信息"><a href="#JSON-格式导出的观测信息" class="headerlink" title="JSON 格式导出的观测信息"></a>JSON 格式导出的观测信息</h3><p>以下为上文导出的 shao0420.json 文件的内容（为增加可读性，手动添加了缩进）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;receiver&quot;:&#123;</span><br><span class="line">        &quot;number&quot;:&quot;UC2200524020&quot;,</span><br><span class="line">        &quot;name&quot;:&quot;ASHTECH UZ-12&quot;,</span><br><span class="line">        &quot;firmware&quot;:&quot;CQ00&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;site&quot;:&#123;</span><br><span class="line">        &quot;number&quot;:&quot;21605M002&quot;,</span><br><span class="line">        &quot;position&quot;:&#123;</span><br><span class="line">            &quot;y&quot;:&quot;4675665.9580&quot;,</span><br><span class="line">            &quot;x&quot;:&quot;-2831733.5830&quot;,</span><br><span class="line">            &quot;z&quot;:&quot;3275369.4100&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;name&quot;:&quot;SHAO&quot;,</span><br><span class="line">        &quot;agency&quot;:&quot;SHANGHAI OBSERVATORY&quot;,</span><br><span class="line">        &quot;observer&quot;:&quot;GGN&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;file&quot;:&#123;</span><br><span class="line">        &quot;system&quot;:&quot;G&quot;,</span><br><span class="line">        &quot;version&quot;:&quot;2.11&quot;,</span><br><span class="line">        &quot;type&quot;:&quot;O&quot;,</span><br><span class="line">        &quot;md5&quot;:&quot;c8ad2534683bf037c7a9e77eab2ef0a3&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;data&quot;:&#123;</span><br><span class="line">        &quot;epoch&quot;:&#123;</span><br><span class="line">            &quot;first&quot;:&quot;2016 02 11 00 00 00.0000000&quot;,</span><br><span class="line">            &quot;last&quot;:&quot;2016 02 11 23 59 30.0000000&quot;,</span><br><span class="line">            &quot;interval&quot;:&quot;30.000&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;antenna&quot;:&#123;</span><br><span class="line">        &quot;number&quot;:&quot;429&quot;,</span><br><span class="line">        &quot;name&quot;:&quot;AOAD&#x2F;M_T&quot;,</span><br><span class="line">        &quot;height&quot;:&#123;</span><br><span class="line">            &quot;y&quot;:0,</span><br><span class="line">            &quot;x&quot;:0,</span><br><span class="line">            &quot;z&quot;:0</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;radome&quot;:&quot;JPLA&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="XML-格式导出的观测信息"><a href="#XML-格式导出的观测信息" class="headerlink" title="XML 格式导出的观测信息"></a>XML 格式导出的观测信息</h3><p>以下为上文导出的 shao0420.xml 文件的内容。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot; standalone&#x3D;&quot;yes&quot;?&gt;</span><br><span class="line">&lt;meta_info&gt;</span><br><span class="line">     &lt;antenna&gt;</span><br><span class="line">          &lt;height&gt;</span><br><span class="line">               &lt;x&gt;&lt;![CDATA[0]]&gt;&lt;&#x2F;x&gt;</span><br><span class="line">               &lt;y&gt;&lt;![CDATA[0]]&gt;&lt;&#x2F;y&gt;</span><br><span class="line">               &lt;z&gt;&lt;![CDATA[0]]&gt;&lt;&#x2F;z&gt;</span><br><span class="line">          &lt;&#x2F;height&gt;</span><br><span class="line">          &lt;name&gt;&lt;![CDATA[AOAD&#x2F;M_T]]&gt;&lt;&#x2F;name&gt;</span><br><span class="line">          &lt;number&gt;&lt;![CDATA[429]]&gt;&lt;&#x2F;number&gt;</span><br><span class="line">          &lt;radome&gt;&lt;![CDATA[JPLA]]&gt;&lt;&#x2F;radome&gt;</span><br><span class="line">     &lt;&#x2F;antenna&gt;</span><br><span class="line">     &lt;data&gt;</span><br><span class="line">          &lt;epoch&gt;</span><br><span class="line">               &lt;first&gt;&lt;![CDATA[2016 02 11 00 00 00.0000000]]&gt;&lt;&#x2F;first&gt;</span><br><span class="line">               &lt;interval&gt;&lt;![CDATA[30.000]]&gt;&lt;&#x2F;interval&gt;</span><br><span class="line">               &lt;last&gt;&lt;![CDATA[2016 02 11 23 59 30.0000000]]&gt;&lt;&#x2F;last&gt;</span><br><span class="line">          &lt;&#x2F;epoch&gt;</span><br><span class="line">     &lt;&#x2F;data&gt;</span><br><span class="line">     &lt;file&gt;</span><br><span class="line">          &lt;md5&gt;&lt;![CDATA[c8ad2534683bf037c7a9e77eab2ef0a3]]&gt;&lt;&#x2F;md5&gt;</span><br><span class="line">          &lt;system&gt;&lt;![CDATA[G]]&gt;&lt;&#x2F;system&gt;</span><br><span class="line">          &lt;type&gt;&lt;![CDATA[O]]&gt;&lt;&#x2F;type&gt;</span><br><span class="line">          &lt;version&gt;&lt;![CDATA[2.11]]&gt;&lt;&#x2F;version&gt;</span><br><span class="line">     &lt;&#x2F;file&gt;</span><br><span class="line">     &lt;receiver&gt;</span><br><span class="line">          &lt;firmware&gt;&lt;![CDATA[CQ00]]&gt;&lt;&#x2F;firmware&gt;</span><br><span class="line">          &lt;name&gt;&lt;![CDATA[ASHTECH UZ-12]]&gt;&lt;&#x2F;name&gt;</span><br><span class="line">          &lt;number&gt;&lt;![CDATA[UC2200524020]]&gt;&lt;&#x2F;number&gt;</span><br><span class="line">     &lt;&#x2F;receiver&gt;</span><br><span class="line">     &lt;site&gt;</span><br><span class="line">          &lt;agency&gt;&lt;![CDATA[SHANGHAI OBSERVATORY]]&gt;&lt;&#x2F;agency&gt;</span><br><span class="line">          &lt;name&gt;&lt;![CDATA[SHAO]]&gt;&lt;&#x2F;name&gt;</span><br><span class="line">          &lt;number&gt;&lt;![CDATA[21605M002]]&gt;&lt;&#x2F;number&gt;</span><br><span class="line">          &lt;observer&gt;&lt;![CDATA[GGN]]&gt;&lt;&#x2F;observer&gt;</span><br><span class="line">          &lt;position&gt;</span><br><span class="line">               &lt;x&gt;&lt;![CDATA[-2831733.5830]]&gt;&lt;&#x2F;x&gt;</span><br><span class="line">               &lt;y&gt;&lt;![CDATA[4675665.9580]]&gt;&lt;&#x2F;y&gt;</span><br><span class="line">               &lt;z&gt;&lt;![CDATA[3275369.4100]]&gt;&lt;&#x2F;z&gt;</span><br><span class="line">          &lt;&#x2F;position&gt;</span><br><span class="line">     &lt;&#x2F;site&gt;</span><br><span class="line">&lt;&#x2F;meta_info&gt;</span><br></pre></td></tr></table></figure>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+            
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2018/04/08/BERNESE%E6%95%99%E7%A8%8B/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    BERNESE教程
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2018/03/31/GFZRNX-%E5%B8%B8%E7%94%A8%E7%9A%84%E6%96%87%E4%BB%B6%E7%BC%96%E8%BE%91%E5%91%BD%E4%BB%A4/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">GFZRNX 常用的文件编辑命令</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/GNSS/">GNSS</a></p>
+                            <p class="item-title"><a href="/2018/04/08/BERNESE%E6%95%99%E7%A8%8B/" class="title">BERNESE教程</a></p>
+                            <p class="item-date"><time datetime="2018-04-07T16:27:31.000Z" itemprop="datePublished">2018-04-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/GNSS/">GNSS</a></p>
+                            <p class="item-title"><a href="/2018/03/31/GFZRNX-%E6%96%87%E4%BB%B6%E5%A4%B4%E4%BF%A1%E6%81%AF%E7%BC%96%E8%BE%91%E5%8A%9F%E8%83%BD%E8%AF%A6%E8%A7%A3/" class="title">GFZRNX 文件头信息编辑功能详解</a></p>
+                            <p class="item-date"><time datetime="2018-03-31T15:23:57.000Z" itemprop="datePublished">2018-03-31</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/GNSS/">GNSS</a></p>
+                            <p class="item-title"><a href="/2018/03/31/GFZRNX-%E5%B8%B8%E7%94%A8%E7%9A%84%E6%96%87%E4%BB%B6%E7%BC%96%E8%BE%91%E5%91%BD%E4%BB%A4/" class="title">GFZRNX 常用的文件编辑命令</a></p>
+                            <p class="item-date"><time datetime="2018-03-31T15:20:20.000Z" itemprop="datePublished">2018-03-31</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/GNSS/">GNSS</a></p>
+                            <p class="item-title"><a href="/2018/03/31/GFZRNX-%E9%85%8D%E7%BD%AE%E5%8F%8A%E6%A0%BC%E5%BC%8F%E7%9B%B8%E5%85%B3%E5%8A%9F%E8%83%BD%E7%9A%84%E4%BD%BF%E7%94%A8/" class="title">GFZRNX 配置及格式相关功能的使用</a></p>
+                            <p class="item-date"><time datetime="2018-03-31T15:14:44.000Z" itemprop="datePublished">2018-03-31</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/GNSS/">GNSS</a></p>
+                            <p class="item-title"><a href="/2018/03/30/%E5%85%A8%E7%90%83%E5%8D%AB%E6%98%9F%E5%AF%BC%E8%88%AA%E7%B3%BB%E7%BB%9F%E6%9C%80%E6%96%B0%E7%8A%B6%E6%80%81/" class="title">全球卫星导航系统最新状态</a></p>
+                            <p class="item-date"><time datetime="2018-03-30T15:43:28.000Z" itemprop="datePublished">2018-03-30</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/GIT/">GIT</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/GNSS/">GNSS</a><span class="category-list-count">6</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/BERNESE/" rel="tag">BERNESE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ERROR/" rel="tag">ERROR</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GFZRNX/" rel="tag">GFZRNX</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NAVIGATION-SYSTEM/" rel="tag">NAVIGATION SYSTEM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E4%B8%8B%E8%BD%BD/" rel="tag">数据下载</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io" target="_blank" rel="noopener">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2020 vzcoso<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice" target="_blank" rel="noopener">Icarus</a>. Designed by <a href="https://github.com/vzcoso" target="_blank" rel="noopener">Vzcoso</a>.
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+        </script>
+        
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML.js"></script>
+
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>

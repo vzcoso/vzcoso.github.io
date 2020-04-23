@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>BERNESE教程 | vzcoso</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="BERNESE的使用教程，包括数据的准备，BPE批处理以及手动处理教程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BERNESE教程">
+<meta property="og:url" content="http://vzcoso.github.io/2018/04/08/BERNESE%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="vzcoso">
+<meta property="og:description" content="BERNESE的使用教程，包括数据的准备，BPE批处理以及手动处理教程。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://vzcoso.github.io/gallery/banner.jpg">
+<meta property="article:published_time" content="2018-04-07T16:27:31.000Z">
+<meta property="article:modified_time" content="2018-04-07T16:50:14.000Z">
+<meta property="article:author" content="vzcoso">
+<meta property="article:tag" content="BERNESE">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vzcoso.github.io/gallery/banner.jpg">
+    
+
+    
+        <link rel="alternate" href="/" title="vzcoso" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/css/images/favicon.png" />
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">vzcoso</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.#Home">主页</a>
+                
+                    <a class="main-nav-link" href="/archives#Archives">归档</a>
+                
+                    <a class="main-nav-link" href="/categories#Categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags#Tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about#About">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.#Home">主页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives#Archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories#Categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags#Tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about#About">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            <section id="main"><article id="post-BERNESE教程" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            
+	
+		<img src="/gallery/banner.jpg" class="article-banner" />
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            BERNESE教程
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/04/08/BERNESE%E6%95%99%E7%A8%8B/">
+            <time datetime="2018-04-07T16:27:31.000Z" itemprop="datePublished">2018-04-08</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/GNSS/">GNSS</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/BERNESE/" rel="tag">BERNESE</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#准备："><span class="toc-number">1.</span> <span class="toc-text">准备：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BPE批处理"><span class="toc-number">2.</span> <span class="toc-text">BPE批处理:</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#PPP-PCF"><span class="toc-number">2.1.</span> <span class="toc-text">PPP.PCF:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ENX2SNX-PCF"><span class="toc-number">2.2.</span> <span class="toc-text">ENX2SNX.PCF:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#手动计算："><span class="toc-number">3.</span> <span class="toc-text">手动计算：</span></a></li></ol>
+                </div>
+            
+            <p>BERNESE的使用教程，包括数据的准备，BPE批处理以及手动处理教程。</p>
+<a id="more"></a>
+
+<h2 id="准备："><a href="#准备：" class="headerlink" title="准备："></a>准备：</h2><ul>
+<li><strong>BSW52</strong><ul>
+<li>COD的ION</li>
+<li>COD的P1C1DCB</li>
+<li>COD的P1P2DCB</li>
+</ul>
+</li>
+<li><strong>COD（不选IGS）</strong><ul>
+<li>COD的EPH</li>
+<li>COD的ERP<ul>
+<li><code>必须是周文件</code></li>
+</ul>
+</li>
+<li>COD的CLK</li>
+</ul>
+</li>
+<li><strong>IGS:（不选COD）</strong><ul>
+<li>igs的sp3<ul>
+<li><code>计算GPS：下载igs or igr（改成igs）</code></li>
+<li><code>计算GPS+GLONASS：下载igs or igr or igu（改成igs）+igv（改成igl）</code></li>
+</ul>
+</li>
+<li>igs的erp</li>
+<li>igs的clk</li>
+</ul>
+</li>
+<li><strong>RINEX</strong><ul>
+<li>O文件<ul>
+<li><code>一般不需要N文件</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>REF52</strong><ul>
+<li>NAME$YD+0.STA（测站信息+接收机+天线类型）<ul>
+<li><code>软件提取</code></li>
+<li><code>自行编辑</code></li>
+<li><code>RINEX含新天线，BERNESE更新或者根据GAMIT天线手动编辑PCV文件</code></li>
+</ul>
+</li>
+<li>NAME$YD+0.ATL（大气潮汐加载位移）<ul>
+<li><code>软件提取</code></li>
+</ul>
+</li>
+<li>NAME$YD+0.BLQ（海洋装载位移）<ul>
+<li><code>FTP下载</code></li>
+</ul>
+</li>
+<li>NAME$YD+0.CLU（处理示例）<ul>
+<li><code>软件编辑</code></li>
+<li><code>自行编辑</code></li>
+</ul>
+</li>
+<li>NAME$YD+0.ABB（站名缩写）<ul>
+<li><code>软件可自行更新</code></li>
+<li><code>软件编辑</code></li>
+<li><code>自行编辑</code></li>
+</ul>
+</li>
+<li>NAME$YD+0.CRD（IGS14坐标）<ul>
+<li><code>可不更新</code></li>
+</ul>
+</li>
+<li>NAME$YD+0.PLD（站点板块,用于生产VEL）<ul>
+<li><code>软件编辑</code></li>
+<li><code>自行编辑</code></li>
+</ul>
+</li>
+<li>NAME$YD+0.VEL（IGS14速度）<ul>
+<li><code>可不更新</code></li>
+</ul>
+</li>
+<li>.IGS14.FIX（IGS14固定站列表）<ul>
+<li><code>可不更新</code></li>
+<li><code>FTP下载</code></li>
+<li><code>软件编辑</code></li>
+<li><code>自行编辑</code></li>
+</ul>
+</li>
+<li>.IGB14.SIG（IGS14基准站列表）<code>可不更新</code></li>
+<li>.IGS14_R.CRD（IGB14坐标）<code>可不更新</code></li>
+<li>.IGS14_R.VEL（IGB14速度）<code>可不更新</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="BPE批处理"><a href="#BPE批处理" class="headerlink" title="BPE批处理:"></a>BPE批处理:</h2><h3 id="PPP-PCF"><a href="#PPP-PCF" class="headerlink" title="PPP.PCF:"></a>PPP.PCF:</h3><ul>
+<li>变量更改：<ul>
+<li>V_B：<ul>
+<li><code>COD</code> or <code>IGS</code>（<code>取决于选用什么机构的sp3/EPH+erp+clk</code>）</li>
+</ul>
+</li>
+<li>V_CRDINF：<ul>
+<li><code>自定义</code></li>
+</ul>
+</li>
+<li>V_STAINF：<ul>
+<li><code>自定义</code></li>
+</ul>
+</li>
+<li>V_REFEPO：<ul>
+<li><code>2010 01 01</code></li>
+</ul>
+</li>
+<li><ul>
+<li>V_BLQINF：</li>
+<li><code>自定义</code></li>
+</ul>
+</li>
+<li>V_ATLINF：<ul>
+<li><code>自定义</code></li>
+</ul>
+</li>
+<li>V_PCV：<ul>
+<li><code>I14</code></li>
+</ul>
+</li>
+<li>V_PCVINF：<ul>
+<li><code>PCV_COD_NO_E</code>（<code>将PCV_COD里的E卫星删除了，保留会出现Frequency array too small</code>）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="ENX2SNX-PCF"><a href="#ENX2SNX-PCF" class="headerlink" title="ENX2SNX.PCF:"></a>ENX2SNX.PCF:</h3><ul>
+<li>变量更改：<ul>
+<li>V_B：<ul>
+<li><code>COD</code> or <code>IGS</code>（<code>取决于选用什么机构的sp3/EPH+erp+clk</code>）</li>
+</ul>
+</li>
+<li>V_CRDINF：<ul>
+<li><code>自定义</code></li>
+</ul>
+</li>
+<li>V_BLQINF：<ul>
+<li><code>自定义</code></li>
+</ul>
+</li>
+<li>V_ATLINF：<ul>
+<li><code>自定义</code></li>
+</ul>
+</li>
+<li>V_PCV：<ul>
+<li><code>I14</code></li>
+</ul>
+</li>
+<li>V_PCVINF：<ul>
+<li><code>PCV_COD_NO_E</code>（<code>将PCV_COD里的E卫星删除了，保留会出现Frequency array too small</code>）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="手动计算："><a href="#手动计算：" class="headerlink" title="手动计算："></a>手动计算：</h2><ul>
+<li>数据准备<ul>
+<li>ATM：<ul>
+<li>COD的ION</li>
+<li>COD的P1C1DCB</li>
+<li>COD的P1P2DCB</li>
+</ul>
+</li>
+<li>ORB：<ul>
+<li><strong>COD的P1C1DCB</strong></li>
+<li><strong>COD的P1P2DCB</strong></li>
+<li><strong>COD（不选IGS）</strong><ul>
+<li>COD的EPH</li>
+<li>COD的ERP<ul>
+<li><code>必须是周文件</code></li>
+</ul>
+</li>
+<li>COD的CLK</li>
+</ul>
+</li>
+<li><strong>IGS:（不选COD）</strong><ul>
+<li>igs的sp3<ul>
+<li><code>计算GPS：下载igs or igr（改成igs）</code></li>
+<li><code>计算GPS+GLONASS：下载igs or igr or igu（改成igs）+igv（改成igl）</code></li>
+</ul>
+</li>
+<li>igs的erp</li>
+<li>igs的clk</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>RINEX</strong><ul>
+<li>O文件<ul>
+<li><code>一般不需要N文件</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>STA</strong><ul>
+<li>NAME$YD+0.STA（测站信息+接收机+天线类型）<ul>
+<li><code>软件提取</code><ul>
+<li>勾选<code>RNX2STA 2：option</code> 所有的4个选项</li>
+</ul>
+</li>
+<li><code>自行编辑</code></li>
+<li><code>RINEX含新天线，BERNESE更新或者根据GAMIT天线手动编辑PCV文件</code></li>
+</ul>
+</li>
+<li>NAME$YD+0.ATL（大气潮汐加载位移）<ul>
+<li><code>软件提取</code></li>
+</ul>
+</li>
+<li>NAME$YD+0.BLQ（海洋装载位移）<ul>
+<li><code>FTP下载</code></li>
+</ul>
+</li>
+<li>NAME$YD+0.CLU（处理示例）<ul>
+<li><code>软件编辑</code></li>
+<li><code>自行编辑</code></li>
+</ul>
+</li>
+<li>NAME$YD+0.ABB（站名缩写）<ul>
+<li><code>软件可自行更新</code></li>
+<li><code>软件编辑</code></li>
+<li><code>自行编辑</code></li>
+</ul>
+</li>
+<li>NAME$YD+0.CRD（IGS14坐标）<ul>
+<li><code>可不更新</code></li>
+</ul>
+</li>
+<li>NAME$YD+0.PLD（站点板块,用于生产VEL）<ul>
+<li><code>软件编辑</code></li>
+<li><code>自行编辑</code></li>
+</ul>
+</li>
+<li>NAME$YD+0.VEL（IGS14速度）<ul>
+<li><code>可不更新</code></li>
+</ul>
+</li>
+<li>.IGS14.FIX（IGS14固定站列表）<ul>
+<li><code>可不更新</code></li>
+<li><code>FTP下载</code></li>
+<li><code>软件编辑</code></li>
+<li><code>自行编辑</code></li>
+</ul>
+</li>
+<li>.IGB14.SIG（IGS14基准站列表）<code>可不更新</code></li>
+<li>.IGS14_R.CRD（IGB14坐标）<code>可不更新</code></li>
+<li>.IGS14_R.VEL（IGB14速度）<code>可不更新</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>新建项目</li>
+<li>软件提取.STA</li>
+<li>生成先验坐标</li>
+<li>RINEX 转 BERNESE格式<ul>
+<li>EXRXOBV3 1：filenames 勾选 <code>update coordinate</code>，否则之后接收机同步的时候会提示找不到非IGS站</li>
+</ul>
+</li>
+<li>IERS 转 BERNESE格式<ul>
+<li>erp 改成 iep</li>
+<li>sp3改成pre</li>
+</ul>
+</li>
+<li>生产轨道文件<ul>
+<li>生成轨道列表.TAB 和 .CLK</li>
+<li>生成标准轨道.STD</li>
+</ul>
+</li>
+<li>接收机同步</li>
+<li>形成单差观测量</li>
+<li>GPS 观测资料 cycle-slip 筛选 </li>
+<li>资料先前处理：第一次， Menu&gt;Processing&gt;Parameter estimation(GPSEST)，利用最小二成法平差的成果，来 检查资料品质并存储残差</li>
+<li>第二次 Menu&gt;Processing&gt;Parameter estimation(GPSEST),先组成未解出整周模糊度的<br>L3 的 GPS 管测量，进行该测段的第一次坐标求解。此步骤与第一次 GPSEST 的输入参数大部<br>分雷同，仅有少许差异</li>
+<li>第三次， Menu&gt;Processing&gt;Parameter estimation(GPSEST),使用 QIF 的方法求解整周模<br>糊度未定值（各基线单独解）</li>
+<li>第四次， Menu&gt;Processing&gt;Parameter estimation(GPSEST),在第三次 GPSEST 将所有基线<br>都计算完成后，紧接进行工程 campagin 单一 Session 的最终解算。</li>
+</ul>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+            
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2018/03/31/GFZRNX-%E6%96%87%E4%BB%B6%E5%A4%B4%E4%BF%A1%E6%81%AF%E7%BC%96%E8%BE%91%E5%8A%9F%E8%83%BD%E8%AF%A6%E8%A7%A3/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">GFZRNX 文件头信息编辑功能详解</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/GNSS/">GNSS</a></p>
+                            <p class="item-title"><a href="/2018/04/08/BERNESE%E6%95%99%E7%A8%8B/" class="title">BERNESE教程</a></p>
+                            <p class="item-date"><time datetime="2018-04-07T16:27:31.000Z" itemprop="datePublished">2018-04-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/GNSS/">GNSS</a></p>
+                            <p class="item-title"><a href="/2018/03/31/GFZRNX-%E6%96%87%E4%BB%B6%E5%A4%B4%E4%BF%A1%E6%81%AF%E7%BC%96%E8%BE%91%E5%8A%9F%E8%83%BD%E8%AF%A6%E8%A7%A3/" class="title">GFZRNX 文件头信息编辑功能详解</a></p>
+                            <p class="item-date"><time datetime="2018-03-31T15:23:57.000Z" itemprop="datePublished">2018-03-31</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/GNSS/">GNSS</a></p>
+                            <p class="item-title"><a href="/2018/03/31/GFZRNX-%E5%B8%B8%E7%94%A8%E7%9A%84%E6%96%87%E4%BB%B6%E7%BC%96%E8%BE%91%E5%91%BD%E4%BB%A4/" class="title">GFZRNX 常用的文件编辑命令</a></p>
+                            <p class="item-date"><time datetime="2018-03-31T15:20:20.000Z" itemprop="datePublished">2018-03-31</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/GNSS/">GNSS</a></p>
+                            <p class="item-title"><a href="/2018/03/31/GFZRNX-%E9%85%8D%E7%BD%AE%E5%8F%8A%E6%A0%BC%E5%BC%8F%E7%9B%B8%E5%85%B3%E5%8A%9F%E8%83%BD%E7%9A%84%E4%BD%BF%E7%94%A8/" class="title">GFZRNX 配置及格式相关功能的使用</a></p>
+                            <p class="item-date"><time datetime="2018-03-31T15:14:44.000Z" itemprop="datePublished">2018-03-31</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/GNSS/">GNSS</a></p>
+                            <p class="item-title"><a href="/2018/03/30/%E5%85%A8%E7%90%83%E5%8D%AB%E6%98%9F%E5%AF%BC%E8%88%AA%E7%B3%BB%E7%BB%9F%E6%9C%80%E6%96%B0%E7%8A%B6%E6%80%81/" class="title">全球卫星导航系统最新状态</a></p>
+                            <p class="item-date"><time datetime="2018-03-30T15:43:28.000Z" itemprop="datePublished">2018-03-30</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/GIT/">GIT</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/GNSS/">GNSS</a><span class="category-list-count">6</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/BERNESE/" rel="tag">BERNESE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ERROR/" rel="tag">ERROR</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GFZRNX/" rel="tag">GFZRNX</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NAVIGATION-SYSTEM/" rel="tag">NAVIGATION SYSTEM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E4%B8%8B%E8%BD%BD/" rel="tag">数据下载</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io" target="_blank" rel="noopener">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2020 vzcoso<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice" target="_blank" rel="noopener">Icarus</a>. Designed by <a href="https://github.com/vzcoso" target="_blank" rel="noopener">Vzcoso</a>.
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+        </script>
+        
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML.js"></script>
+
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>

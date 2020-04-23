@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>GFZRNX 常用的文件编辑命令 | vzcoso</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="GFZRNX 是由德国波兹坦地学研究中心（GFZ）开发的一款用于 GNSS 数据预处理（适用于 RINEX 2 与 3 版本格式）的程序，支持对 RINEX 格式的观测数据文件（Obs）、广播星历文件（Nav）和气象数据文件（Met）的操作。 前文已经介绍过该程序的配置和文件格式转换功能的使用，本文将以实例的方式介绍其文件编辑功能的使用方法,包括文件分割与拼接、数据提取、采样率抽取、观测卫星筛选和">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GFZRNX 常用的文件编辑命令">
+<meta property="og:url" content="http://vzcoso.github.io/2018/03/31/GFZRNX-%E5%B8%B8%E7%94%A8%E7%9A%84%E6%96%87%E4%BB%B6%E7%BC%96%E8%BE%91%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="vzcoso">
+<meta property="og:description" content="GFZRNX 是由德国波兹坦地学研究中心（GFZ）开发的一款用于 GNSS 数据预处理（适用于 RINEX 2 与 3 版本格式）的程序，支持对 RINEX 格式的观测数据文件（Obs）、广播星历文件（Nav）和气象数据文件（Met）的操作。 前文已经介绍过该程序的配置和文件格式转换功能的使用，本文将以实例的方式介绍其文件编辑功能的使用方法,包括文件分割与拼接、数据提取、采样率抽取、观测卫星筛选和">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-03-31T15:20:20.000Z">
+<meta property="article:modified_time" content="2018-04-07T16:32:34.000Z">
+<meta property="article:author" content="vzcoso">
+<meta property="article:tag" content="GFZRNX">
+<meta name="twitter:card" content="summary">
+    
+
+    
+        <link rel="alternate" href="/" title="vzcoso" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/css/images/favicon.png" />
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">vzcoso</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.#Home">主页</a>
+                
+                    <a class="main-nav-link" href="/archives#Archives">归档</a>
+                
+                    <a class="main-nav-link" href="/categories#Categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags#Tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about#About">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.#Home">主页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives#Archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories#Categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags#Tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about#About">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            <section id="main"><article id="post-GFZRNX-常用的文件编辑命令" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            GFZRNX 常用的文件编辑命令
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/03/31/GFZRNX-%E5%B8%B8%E7%94%A8%E7%9A%84%E6%96%87%E4%BB%B6%E7%BC%96%E8%BE%91%E5%91%BD%E4%BB%A4/">
+            <time datetime="2018-03-31T15:20:20.000Z" itemprop="datePublished">2018-03-31</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/GNSS/">GNSS</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/GFZRNX/" rel="tag">GFZRNX</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#文件编辑命令"><span class="toc-number">1.</span> <span class="toc-text">文件编辑命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#文件分割"><span class="toc-number">1.1.</span> <span class="toc-text">文件分割</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据提取"><span class="toc-number">1.2.</span> <span class="toc-text">数据提取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件拼接"><span class="toc-number">1.3.</span> <span class="toc-text">文件拼接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#采样率抽取"><span class="toc-number">1.4.</span> <span class="toc-text">采样率抽取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#观测量编辑"><span class="toc-number">1.5.</span> <span class="toc-text">观测量编辑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#观测卫星筛选"><span class="toc-number">1.6.</span> <span class="toc-text">观测卫星筛选</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#卫星系统筛选"><span class="toc-number">1.7.</span> <span class="toc-text">卫星系统筛选</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#星历重排序"><span class="toc-number">1.8.</span> <span class="toc-text">星历重排序</span></a></li></ol></li></ol>
+                </div>
+            
+            <p>GFZRNX 是由德国波兹坦地学研究中心（GFZ）开发的一款用于 GNSS 数据预处理（适用于 RINEX 2 与 3 版本格式）的程序，支持对 RINEX 格式的观测数据文件（Obs）、广播星历文件（Nav）和气象数据文件（Met）的操作。</p>
+<p><a href="https://vzcoso.github.io/2018/03/31/GFZRNX-配置及格式相关功能的使用/">前文</a>已经介绍过该程序的配置和文件格式转换功能的使用，本文将以实例的方式介绍其文件编辑功能的使用方法,包括文件分割与拼接、数据提取、采样率抽取、观测卫星筛选和观测量编辑等。</p>
+<a id="more"></a>
+
+<h2 id="文件编辑命令"><a href="#文件编辑命令" class="headerlink" title="文件编辑命令"></a>文件编辑命令</h2><h3 id="文件分割"><a href="#文件分割" class="headerlink" title="文件分割"></a>文件分割</h3><p>要使用程序的文件分割功能，只需在运行时添加 <code>-split</code> 参数，然后输入分割文件的时段长度，其中时长以秒为单位。</p>
+<p>示例，将 SHAO 站于 2016 年 2 月 11 日全天的观测数据分割为 24 个时长为 1 小时的观测文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gfzrnx -finp shao0420.16o -fout ::RX2:: -split 3600</span><br></pre></td></tr></table></figure>
+
+<p>上述命令中的 <code>-fout ::RX2::</code> 参数指定输出文件以 RINEX 2 的命名方式自动命名。运行该命令，将得到时长为 1 小时的 24 个观测文件：shao042a.16o、shao042b.16o 至 shao042x.16o。</p>
+<p>查看输出的这些文件，你将发现它们已被自动转换为 RINEX 3 格式，别忘了这是程序默认的输出格式。但是这可能不是你想要的，如果希望文件分割前后观测数据的大版本号不变，可以在命令中添加 <code>-kv</code> 参数。即：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gfzrnx -finp shao0420.16o -fout ::RX2:: -split 3600 -kv</span><br></pre></td></tr></table></figure>
+
+<p>你也可能希望得到 RINEX 3 格式的输出文件，并且以 RINEX 3 格式的命名方式作为文件名。以下为一个示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gfzrnx -finp shao0420.16o -fout ::RX3:: -split 3600</span><br></pre></td></tr></table></figure>
+
+<p>需要补充的是，目前该程序似乎存在一个 Bug。当指定分割后的文件时段长于 1 小时，程序将为输出文件命名为类似 “site0010.16o” 的形式。这样的后果是：当 <code>-split</code> 参数指定的时段长度大于 3600 秒，程序将只输出第一个时段的文件。因为后续输出的文件与第一个文件重名，造成程序终止。当然，如果你在命令中还添加了 <code>-f</code> 参数用于强制覆盖重名文件，那么将只得到最后一个时段的观测文件。因为之前输出的文件被覆盖了。鉴于此，要获得时长超过 1 小时的数据时，建议使用下文介绍的数据提取的操作方式。</p>
+<h3 id="数据提取"><a href="#数据提取" class="headerlink" title="数据提取"></a>数据提取</h3><p>数据提取即从观测文件中提取任意一段时间的数据。在使用该功能时，使用 <code>-epo_beg</code> 参数来指定首历元开始时刻，使用 <code>-d</code> 参数指定以秒为单位的时长。其中输入的开始时刻可使用简化儒略日、GPS 周、年月日、年积日等多种形式。</p>
+<p>依然以上文使用的 SHAO 站的观测数据为例。该天为 2016 年第 42 日，第 1883 GPS 周的星期四，对应的简化儒略日为 57429。示例，从 shao0420.16o 中提取 2 点开始，时长为 2 小时的观测数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gfzrnx -finp shao0420.16o -epo_beg 2016-02-11_02:00:00 -d 7200 -kv &gt; shao042c.16o</span><br></pre></td></tr></table></figure>
+
+<p>运行这个命令后，将得到包含所需数据的文件 shao042c.16o。按照日期指定方式的不同，这个命令还可以如此改写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ gfzrnx -finp shao0420.16o -epo_beg 18834_02:00:00 -d 7200 -kv &gt; shao042c.16o  # 日期以 GPS 周指定</span><br><span class="line">$ gfzrnx -finp shao0420.16o -epo_beg 2016042_02:00:00 -d 7200 -kv -fout shao042c.16o  # 日期以年与年积日指定</span><br><span class="line">$ gfzrnx -finp shao0420.16o -epo_beg 57429_02:00:00 -d 7200 -kv -fout shao042c.16o  # 日期以简化儒略日指定</span><br></pre></td></tr></table></figure>
+
+<h3 id="文件拼接"><a href="#文件拼接" class="headerlink" title="文件拼接"></a>文件拼接</h3><p>说过文件分割与数据提取，现在介绍其逆操作——文件拼接。使用该功能时不需其它参数，只需以 <code>-finp</code> 参数指定要拼接的文件列表。其顺序可以是任意的，GFZRNX 程序能自动确定拼接的顺序。</p>
+<p>下面的命令将前面文件分割时得到的 24 个文件中的前 3 个拼接到一起，并保持拼接前后文件的 RINEX 格式大版本号不变：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gfzrnx -finp shao042a.16o shao042c.16o shao042b.16o -kv &gt; shao0420.16o</span><br></pre></td></tr></table></figure>
+
+<h3 id="采样率抽取"><a href="#采样率抽取" class="headerlink" title="采样率抽取"></a>采样率抽取</h3><p>高采样率的文件体积通常很大，重新进行采样率抽取可以对其瘦身。要应用该功能可以使用 <code>-smp</code> 参数指定输出文件的采样间隔：</p>
+<p>下面的命令将采样间隔为 30 秒的源文件重采样为 60 秒：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gfzrnx -finp shao0420.16o -smp 60 &gt; shao0420_60s.16o</span><br></pre></td></tr></table></figure>
+
+<p>运行该命令，得到采样间隔为 60 秒的观测文件 shao0420_60s.16o。</p>
+<h3 id="观测量编辑"><a href="#观测量编辑" class="headerlink" title="观测量编辑"></a>观测量编辑</h3><p>GFZRNX 程序还支持直接对观测量进行编辑。要使用该功能，可以使用 <code>-obs_types</code> 参数来指定要保留的观测量列表。其中多个项目之间以逗号分隔。</p>
+<p>下面的命令将在输出文件中删去除了 L1、L2、P1、P2、C1、C2 之外的观测量：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gfzrnx -finp daej0420.16o -obs_types L1,L2,P1,P2,C1,C2 -kv &gt; temp0420.16o</span><br></pre></td></tr></table></figure>
+
+<p>如果不关心观测频段而只关心观测类型，还可以使用如下的命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gfzrnx -finp daej0420.16o -obs_types L,P,C -kv &gt; temp0420.16o</span><br></pre></td></tr></table></figure>
+
+<p>或者只关心观测频段不关心观测类型，可以使用如下的命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gfzrnx -finp daej0420.16o -obs_types 1,2 -kv &gt; temp0420.16o</span><br></pre></td></tr></table></figure>
+
+<h3 id="观测卫星筛选"><a href="#观测卫星筛选" class="headerlink" title="观测卫星筛选"></a>观测卫星筛选</h3><p>有些 GNSS 数据观测量较差，或者受数据处理程序所限，可能需要从观测数据中删除某些观测数据。GFZRNX 程序支持对卫星或卫星系统进行筛选。</p>
+<p><code>-prn</code> 参数和 <code>-no_prn</code> 参数用于对卫星进行筛选。其中 <code>-prn</code> 参数用于设置保留的卫星，而 <code>-no_prn</code> 参数用于设置要去除的卫星。对于多个卫星的操作，可以用逗号进行分隔，亦可使用“-”指定起止卫星号。</p>
+<p>下面的命令将 GLONASS 卫星 R1 与 R5 的观测数据删除：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gfzrnx -finp daej0420.16o -no_prn R01,R05 -kv &gt; temp0420.16o  #卫星号最好使用两位数字，否则易出错</span><br></pre></td></tr></table></figure>
+
+<p>运行命令后，检查输出的文件 temp0420.16o，发现其中 R1 与 R5 的观测数据被删去了。</p>
+<p>下面的命令则用于删除从 R1 到 R5 之间所有卫星的观测：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gfzrnx -finp daej0420.16o -no_prn R01-05 -kv &gt; temp0420.16o</span><br></pre></td></tr></table></figure>
+
+<p>运行命令后，检查输出的文件 temp0420.16o，发现其中 R1、R2、R3、R4、R5 的观测数据都被删去了。</p>
+<p><code>-prn</code> 参数的使用方式与 <code>-no_prn</code> 类似。以下的命令将在输出文件中只保留对从 G1 到 G30、从 R1 到 R10 卫星的观测：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gfzrnx -finp daej0420.16o -prn G01-30,R01-10 -kv &gt; temp0420.16o</span><br></pre></td></tr></table></figure>
+
+<h3 id="卫星系统筛选"><a href="#卫星系统筛选" class="headerlink" title="卫星系统筛选"></a>卫星系统筛选</h3><p>除了使用 <code>-prn</code> 或 <code>-no_prn</code> 对某些卫星的数据进行操作，还可以使用 <code>-satsys</code> 参数直接对卫星系统的筛选，以下的命令将在观测文件中删去除 GPS 和 GLONASS 系统之外的所有卫星：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gfzrnx -finp daej0420.16o -satsys GR -kv &gt; temp2000.16o</span><br></pre></td></tr></table></figure>
+
+<p>值得注意的是，受到 RINEX 2 标准的限制（RINEX 2.11 标准未定义北斗观测量），筛选包含北斗卫星的观测数据时可能会出现问题。具体表现为，当输出格式为 RINEX 2 时，虽然设置了保留北斗系统卫星，但输出文件中的北斗卫星观测量被空白取代。不过对星历文件操作是没有问题的。</p>
+<p>下面的命令将从混合的星历数据中分离出北斗卫星的信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gfzrnx -finp BRDC00IGS_R_20170420000_01D_MN.rnx -satsys C &gt; brdc0420.17c</span><br></pre></td></tr></table></figure>
+
+<p>运行命令后，得到只包含北斗卫星轨道信息的星历文件 brdc0420.17c。</p>
+<h3 id="星历重排序"><a href="#星历重排序" class="headerlink" title="星历重排序"></a>星历重排序</h3><p>上文对卫星系统筛选后输出的星历文件中，卫星轨道信息按卫星的 PRN 编号升序排列，这可能不是你想要的。通过 <code>-ns</code> 参数可以对其中的卫星轨道信息重新排序。该参数接受两个选项：<code>prn</code> 或 <code>time</code>，其中 <code>prn</code> 指定输出文件中卫星轨道信息按照卫星 PRN 编号排序，而 <code>time</code> 则将按照发布时间排序。</p>
+<p>示例，对输入的广播星历文件按照发布时间重新排序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gfzrnx -finp brdc0420.17n -ns time -kv &gt; brdn0420.17n</span><br></pre></td></tr></table></figure>
+
+<p>对输入的广播星历文件按照卫星的 PRN 编号重新排序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gfzrnx -finp brdc0420.17n -ns prn -kv &gt; brdn0420.17n</span><br></pre></td></tr></table></figure>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+            
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2018/03/31/GFZRNX-%E6%96%87%E4%BB%B6%E5%A4%B4%E4%BF%A1%E6%81%AF%E7%BC%96%E8%BE%91%E5%8A%9F%E8%83%BD%E8%AF%A6%E8%A7%A3/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    GFZRNX 文件头信息编辑功能详解
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2018/03/31/GFZRNX-%E9%85%8D%E7%BD%AE%E5%8F%8A%E6%A0%BC%E5%BC%8F%E7%9B%B8%E5%85%B3%E5%8A%9F%E8%83%BD%E7%9A%84%E4%BD%BF%E7%94%A8/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">GFZRNX 配置及格式相关功能的使用</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/GNSS/">GNSS</a></p>
+                            <p class="item-title"><a href="/2018/04/08/BERNESE%E6%95%99%E7%A8%8B/" class="title">BERNESE教程</a></p>
+                            <p class="item-date"><time datetime="2018-04-07T16:27:31.000Z" itemprop="datePublished">2018-04-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/GNSS/">GNSS</a></p>
+                            <p class="item-title"><a href="/2018/03/31/GFZRNX-%E6%96%87%E4%BB%B6%E5%A4%B4%E4%BF%A1%E6%81%AF%E7%BC%96%E8%BE%91%E5%8A%9F%E8%83%BD%E8%AF%A6%E8%A7%A3/" class="title">GFZRNX 文件头信息编辑功能详解</a></p>
+                            <p class="item-date"><time datetime="2018-03-31T15:23:57.000Z" itemprop="datePublished">2018-03-31</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/GNSS/">GNSS</a></p>
+                            <p class="item-title"><a href="/2018/03/31/GFZRNX-%E5%B8%B8%E7%94%A8%E7%9A%84%E6%96%87%E4%BB%B6%E7%BC%96%E8%BE%91%E5%91%BD%E4%BB%A4/" class="title">GFZRNX 常用的文件编辑命令</a></p>
+                            <p class="item-date"><time datetime="2018-03-31T15:20:20.000Z" itemprop="datePublished">2018-03-31</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/GNSS/">GNSS</a></p>
+                            <p class="item-title"><a href="/2018/03/31/GFZRNX-%E9%85%8D%E7%BD%AE%E5%8F%8A%E6%A0%BC%E5%BC%8F%E7%9B%B8%E5%85%B3%E5%8A%9F%E8%83%BD%E7%9A%84%E4%BD%BF%E7%94%A8/" class="title">GFZRNX 配置及格式相关功能的使用</a></p>
+                            <p class="item-date"><time datetime="2018-03-31T15:14:44.000Z" itemprop="datePublished">2018-03-31</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/GNSS/">GNSS</a></p>
+                            <p class="item-title"><a href="/2018/03/30/%E5%85%A8%E7%90%83%E5%8D%AB%E6%98%9F%E5%AF%BC%E8%88%AA%E7%B3%BB%E7%BB%9F%E6%9C%80%E6%96%B0%E7%8A%B6%E6%80%81/" class="title">全球卫星导航系统最新状态</a></p>
+                            <p class="item-date"><time datetime="2018-03-30T15:43:28.000Z" itemprop="datePublished">2018-03-30</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/GIT/">GIT</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/GNSS/">GNSS</a><span class="category-list-count">6</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/BERNESE/" rel="tag">BERNESE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ERROR/" rel="tag">ERROR</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GFZRNX/" rel="tag">GFZRNX</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NAVIGATION-SYSTEM/" rel="tag">NAVIGATION SYSTEM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E4%B8%8B%E8%BD%BD/" rel="tag">数据下载</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io" target="_blank" rel="noopener">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2020 vzcoso<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice" target="_blank" rel="noopener">Icarus</a>. Designed by <a href="https://github.com/vzcoso" target="_blank" rel="noopener">Vzcoso</a>.
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+        </script>
+        
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML.js"></script>
+
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>
